@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+@theme {
+  --color-neon-cyan: #00f0ff;
+  --color-neon-purple: #a855f7;
+  --color-neon-pink: #f472b6;
+  --color-neon-green: #22d3ee;
+  --color-matte-sand: #d4a574;
+  --color-matte-sage: #87a96b;
+  --color-matte-clay: #c4956a;
+  --color-matte-stone: #9ca3af;
+  --color-surface: #0a0a0f;
+  --color-surface-raised: #12121a;
+  --color-surface-card: #1a1a2e;
+  --color-surface-modal: #16162a;
+  --color-onchain: #00f0ff;
+  --color-offchain: #d4a574;
+  --color-income: #22c55e;
+  --color-expense: #ef4444;
+}
+
+:root {
+  --font-sans: system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+}
+
+body {
+  background: var(--color-surface);
+  color: #e2e8f0;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Neon glow utilities */
+.glow-onchain {
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.4), 0 0 20px rgba(0, 240, 255, 0.15);
+}
+
+.glow-offchain {
+  box-shadow: 0 0 8px rgba(212, 165, 116, 0.3), 0 0 16px rgba(212, 165, 116, 0.1);
+}
+
+/* Hide scrollbar but keep scroll */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
