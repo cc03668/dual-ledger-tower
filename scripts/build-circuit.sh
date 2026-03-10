@@ -70,7 +70,7 @@ echo "Step 3b: Contributing to ceremony..."
 snarkjs zkey contribute \
     "$BUILD_DIR/${CIRCUIT_NAME}_0000.zkey" \
     "$BUILD_DIR/${CIRCUIT_NAME}_final.zkey" \
-    --name="DLT contribution" -v -e="dual-ledger-tower-zk"
+    --name="DLT contribution" -v -e="piggy-bank-zk"
 
 # Step 4: Export verification key
 echo "Step 4: Exporting verification key..."

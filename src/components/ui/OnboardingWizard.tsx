@@ -75,7 +75,7 @@ export function OnboardingWizard({ onComplete }: { onComplete: () => void }) {
         >
           {step === "welcome" && (
             <div className="space-y-4 text-center">
-              <h2 className="text-lg font-bold">Welcome to Dual Ledger Tower</h2>
+              <h2 className="text-lg font-bold">Welcome to Piggy Bank</h2>
               <p className="text-sm text-white/60">
                 Track your onchain and offchain finances in one place. Add entries manually or auto-detect wallet transactions.
               </p>

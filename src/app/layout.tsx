@@ -4,8 +4,8 @@ import { BottomNav } from "@/components/ui/BottomNav";
 import { AppProviders } from "@/components/AppProviders";
 
 export const metadata: Metadata = {
-  title: "Dual Ledger Tower",
-  description: "Dual-rail crypto bookkeeping — track onchain and offchain spending",
+  title: "Piggy Bank",
+  description: "Crypto piggy bank — track onchain and offchain spending with ZK proofs",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
