@@ -1,7 +1,13 @@
 export type Rail = "onchain" | "offchain";
 export type Flow = "income" | "expense";
-export type Category = "food" | "transport" | "shopping" | "investment" | "fun" | "other";
-export type Tetromino = "I" | "O" | "T" | "L" | "J" | "S" | "Z";
+export type Chain = "ethereum";
+
+export type ExpenseCategory = "food" | "transport" | "shopping" | "bills" | "entertainment" | "investment" | "other";
+export type IncomeCategory = "salary" | "freelance" | "yield" | "airdrop" | "transfer" | "other";
+export type Category = ExpenseCategory | IncomeCategory;
+
+export type Status = "confirmed" | "suggested" | "dismissed";
+export type Currency = "USD" | "TWD" | "ETH" | "USDT" | "USDC" | "BTC";
 
 export type Entry = {
   id: string;
@@ -10,43 +16,71 @@ export type Entry = {
   rail: Rail;
   flow: Flow;
   category: Category;
-  note?: string;
-  amount?: number;
-  tetromino: Tetromino;
-  rotation: number;
-  placedCol: number | null;
-  placedRow: number | null;
+  note: string;
+  amount: number;
+  currency: Currency;
+  amountUsd?: number;
+  sourceId?: string;
+  walletAddress?: string;
+  txHash?: string;
+  status: Status;
 };
 
-export type BoardCell = {
-  entryId: string;
+export type Source = {
+  id: string;
+  label: string;
   rail: Rail;
-  category: Category;
-  flow: Flow;
-} | null;
-
-export type Board = BoardCell[][];
-
-export const GRID_W = 8;
-export const GRID_H = 16;
-
-export const CATEGORY_SHAPE: Record<Category, Tetromino> = {
-  food: "T",
-  transport: "L",
-  shopping: "O",
-  investment: "I",
-  fun: "S",
-  other: "J",
+  defaultCategory?: Category;
+  walletAddress?: string;
+  notes?: string;
+  isMonitored?: boolean;
+  chain?: Chain;
+  lastCheckedAt?: string; // ISO 8601
 };
 
-export const CATEGORIES: Category[] = ["food", "transport", "shopping", "investment", "fun", "other"];
+export type DetectedTransaction = {
+  hash: string;
+  from: string;
+  to: string;
+  value: string; // wei string
+  timeStamp: string; // unix seconds string
+  gasUsed: string;
+  gasPrice: string;
+  isError: string; // "0" success, "1" fail
+  functionName: string;
+};
+
+export const EXPENSE_CATEGORIES: { value: ExpenseCategory; label: string; emoji: string }[] = [
+  { value: "food", label: "Food", emoji: "🍜" },
+  { value: "transport", label: "Transport", emoji: "🚌" },
+  { value: "shopping", label: "Shopping", emoji: "🛍" },
+  { value: "bills", label: "Bills", emoji: "📄" },
+  { value: "entertainment", label: "Entertainment", emoji: "🎮" },
+  { value: "investment", label: "Investment", emoji: "📈" },
+  { value: "other", label: "Other", emoji: "📦" },
+];
+
+export const INCOME_CATEGORIES: { value: IncomeCategory; label: string; emoji: string }[] = [
+  { value: "salary", label: "Salary", emoji: "💰" },
+  { value: "freelance", label: "Freelance", emoji: "💻" },
+  { value: "yield", label: "Yield", emoji: "🌱" },
+  { value: "airdrop", label: "Airdrop", emoji: "🪂" },
+  { value: "transfer", label: "Transfer", emoji: "🔄" },
+  { value: "other", label: "Other", emoji: "📦" },
+];
 
 export const CATEGORY_LABELS: Record<Category, string> = {
   food: "Food",
   transport: "Transport",
   shopping: "Shopping",
+  bills: "Bills",
+  entertainment: "Entertainment",
   investment: "Investment",
-  fun: "Fun",
+  salary: "Salary",
+  freelance: "Freelance",
+  yield: "Yield",
+  airdrop: "Airdrop",
+  transfer: "Transfer",
   other: "Other",
 };
 
@@ -54,7 +88,13 @@ export const CATEGORY_EMOJI: Record<Category, string> = {
   food: "🍜",
   transport: "🚌",
   shopping: "🛍",
+  bills: "📄",
+  entertainment: "🎮",
   investment: "📈",
-  fun: "🎮",
+  salary: "💰",
+  freelance: "💻",
+  yield: "🌱",
+  airdrop: "🪂",
+  transfer: "🔄",
   other: "📦",
 };

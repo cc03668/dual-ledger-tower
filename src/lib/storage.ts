@@ -1,8 +1,7 @@
-import { Entry, Board } from "@/types";
-import { createEmptyBoard } from "./tetris";
+import { Entry, Source } from "@/types";
 
 const ENTRIES_KEY = "dlt-entries";
-const BOARDS_KEY = "dlt-boards";
+const SOURCES_KEY = "dlt-sources";
 
 // -- Entries --
 
@@ -41,36 +40,63 @@ export function updateEntry(id: string, updates: Partial<Entry>): Entry[] {
   return entries;
 }
 
-// -- Boards (per day per rail) --
-
-type BoardMap = Record<string, Board>; // key = "dateKey:rail"
-
-function boardKey(dateKey: string, rail: "onchain" | "offchain"): string {
-  return `${dateKey}:${rail}`;
+export function addEntries(newEntries: Entry[]): Entry[] {
+  const entries = loadEntries();
+  entries.push(...newEntries);
+  saveEntries(entries);
+  return entries;
 }
 
-export function loadBoards(): BoardMap {
-  if (typeof window === "undefined") return {};
+// -- Sources --
+
+export function loadSources(): Source[] {
+  if (typeof window === "undefined") return [];
   try {
-    const raw = localStorage.getItem(BOARDS_KEY);
-    return raw ? JSON.parse(raw) : {};
+    const raw = localStorage.getItem(SOURCES_KEY);
+    return raw ? JSON.parse(raw) : [];
   } catch {
-    return {};
+    return [];
   }
 }
 
-export function saveBoards(boards: BoardMap) {
-  localStorage.setItem(BOARDS_KEY, JSON.stringify(boards));
+export function saveSources(sources: Source[]) {
+  localStorage.setItem(SOURCES_KEY, JSON.stringify(sources));
 }
 
-export function getBoard(dateKey: string, rail: "onchain" | "offchain"): Board {
-  const boards = loadBoards();
-  const key = boardKey(dateKey, rail);
-  return boards[key] || createEmptyBoard();
+export function addSource(source: Source): Source[] {
+  const sources = loadSources();
+  sources.push(source);
+  saveSources(sources);
+  return sources;
 }
 
-export function setBoard(dateKey: string, rail: "onchain" | "offchain", board: Board) {
-  const boards = loadBoards();
-  boards[boardKey(dateKey, rail)] = board;
-  saveBoards(boards);
+export function updateSource(id: string, updates: Partial<Source>): Source[] {
+  const sources = loadSources().map((s) =>
+    s.id === id ? { ...s, ...updates } : s
+  );
+  saveSources(sources);
+  return sources;
+}
+
+export function removeSource(id: string): Source[] {
+  const sources = loadSources().filter((s) => s.id !== id);
+  saveSources(sources);
+  return sources;
+}
+
+// -- Onboarding --
+
+const ONBOARDING_KEY = "dlt-onboarding-complete";
+
+export function isOnboardingComplete(): boolean {
+  if (typeof window === "undefined") return false;
+  return localStorage.getItem(ONBOARDING_KEY) === "1";
+}
+
+export function markOnboardingComplete(): void {
+  localStorage.setItem(ONBOARDING_KEY, "1");
+}
+
+export function hasAnyData(): boolean {
+  return loadEntries().length > 0 || loadSources().length > 0;
 }

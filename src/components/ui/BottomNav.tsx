@@ -5,9 +5,11 @@ import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
 
 const tabs = [
-  { href: "/play", label: "Play", icon: "🎮" },
+  { href: "/dashboard", label: "Dashboard", icon: "📊" },
   { href: "/ledger", label: "Ledger", icon: "📒" },
-  { href: "/analysis", label: "Analysis", icon: "📊" },
+  { href: "/add", label: "Add", icon: "➕", accent: true },
+  { href: "/suggestions", label: "Review", icon: "💡" },
+  { href: "/sources", label: "Sources", icon: "👛" },
 ];
 
 export function BottomNav() {
@@ -24,7 +26,9 @@ export function BottomNav() {
               href={tab.href}
               className="relative flex flex-col items-center gap-0.5 px-4 py-2"
             >
-              <span className="text-lg">{tab.icon}</span>
+              <span className={`text-lg ${tab.accent ? "bg-neon-cyan/20 rounded-full w-8 h-8 flex items-center justify-center" : ""}`}>
+                {tab.icon}
+              </span>
               <span
                 className={`text-[10px] font-medium transition-colors ${
                   active ? "text-white" : "text-white/40"

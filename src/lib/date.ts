@@ -35,3 +35,27 @@ export function displayDate(dateKey: string): string {
   const d = parseDate(dateKey);
   return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
 }
+
+export function monthKey(date: Date = new Date()): string {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  return `${y}-${m}`;
+}
+
+export function monthLabel(key: string): string {
+  const [y, m] = key.split("-").map(Number);
+  const d = new Date(y, m - 1);
+  return d.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+}
+
+export function prevMonth(key: string): string {
+  const [y, m] = key.split("-").map(Number);
+  const d = new Date(y, m - 2);
+  return monthKey(d);
+}
+
+export function nextMonth(key: string): string {
+  const [y, m] = key.split("-").map(Number);
+  const d = new Date(y, m);
+  return monthKey(d);
+}
